@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
-import { Github, Linkedin, Loader2, Mail, MapPin, Send } from 'lucide-react';
+import { CheckCircle2, Github, Linkedin, Loader2, Mail, MapPin, Send, X } from 'lucide-react';
 import SectionHeading from './SectionHeading.jsx';
 import { profile } from '../data/portfolioData.js';
 
@@ -10,6 +10,7 @@ export default function Contact() {
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const updateField = (event) => {
     const { name, value } = event.target;
@@ -49,7 +50,8 @@ export default function Contact() {
         },
         { publicKey }
       );
-      setStatus({ type: 'success', message: 'Message sent successfully. I will get back to you soon.' });
+      setStatus({ type: 'success', message: 'Message sent successfully.' });
+      setShowSuccess(true);
       setForm(initialForm);
     } catch (error) {
       setStatus({ type: 'error', message: 'Message failed to send. Please try again or email me directly.' });
@@ -75,7 +77,7 @@ export default function Contact() {
           <span><MapPin size={18} /> {profile.location}</span>
         </div>
 
-        <form className="glass-card contact-form" onSubmit={submitForm}>
+        <form className={`glass-card contact-form ${showSuccess ? 'form-muted' : ''}`} onSubmit={submitForm}>
           <div className="form-row">
             <label>
               Name
@@ -100,6 +102,20 @@ export default function Contact() {
           {status.message && <p className={`form-status ${status.type}`}>{status.message}</p>}
         </form>
       </div>
+
+      {showSuccess && (
+        <div className="sent-overlay" role="dialog" aria-modal="true" aria-label="Message sent successfully">
+          <div className="sent-card glass-card">
+            <button className="sent-close" onClick={() => setShowSuccess(false)} aria-label="Close message sent popup"><X size={18} /></button>
+            <div className="sent-orbit">
+              <CheckCircle2 size={46} />
+            </div>
+            <h3>Message Sent!</h3>
+            <p>Your message has been delivered successfully. Thank you for contacting me — I will get back to you soon.</p>
+            <button className="primary-btn mini" onClick={() => setShowSuccess(false)}>Write Another</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

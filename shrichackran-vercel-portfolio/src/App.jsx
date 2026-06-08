@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import Navbar from './components/Navbar.jsx';
 import Hero from './components/Hero.jsx';
 import About from './components/About.jsx';
@@ -9,20 +9,34 @@ import Skills from './components/Skills.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import AssetModal from './components/AssetModal.jsx';
+import BootScreen from './components/BootScreen.jsx';
 import { projects } from './data/portfolioData.js';
 
 export default function App() {
   const [activeProjectId, setActiveProjectId] = useState(null);
+  const [booting, setBooting] = useState(() => !sessionStorage.getItem('portfolioBooted'));
+
+  const completeBoot = useCallback(() => {
+    sessionStorage.setItem('portfolioBooted', 'true');
+    setBooting(false);
+  }, []);
+
   const activeProject = useMemo(
     () => projects.find((project) => project.id === activeProjectId),
     [activeProjectId]
   );
 
+  if (booting) {
+    return <BootScreen onComplete={completeBoot} />;
+  }
+
   return (
-    <div className="site-shell">
+    <div className="site-shell site-enter">
       <div className="bg-grid" />
+      <div className="scanline" />
       <div className="glow glow-one" />
       <div className="glow glow-two" />
+      <div className="glow glow-three" />
       <Navbar />
       <main>
         <Hero />

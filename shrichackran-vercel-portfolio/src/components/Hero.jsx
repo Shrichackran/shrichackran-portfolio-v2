@@ -3,13 +3,14 @@ import { ArrowDownToLine, Github, Linkedin, Mail, MapPin, Rocket } from 'lucide-
 import { profile } from '../data/portfolioData.js';
 
 const codeLines = [
-  'const developer = {',
-  "  name: 'Shrichackran K M',",
-  "  role: 'Full Stack Developer',",
-  "  focus: ['AI', 'Backend', 'Automation'],",
-  "  stack: ['React', 'Node.js', 'Python'],",
-  "  mindset: 'Build, learn, improve',",
-  '};'
+  'shrichackran@portfolio:~$ whoami',
+  '→ Full-Stack Developer • AI Engineer',
+  'shrichackran@portfolio:~$ cat stack.json',
+  '{',
+  '  "ai": ["LLMs", "RAG", "TensorFlow", "PyTorch"],',
+  '  "backend": ["Node.js", "Express", "REST APIs"],',
+  '  "mission": "Build useful systems with clean execution"',
+  '}'
 ];
 
 export default function Hero() {
@@ -24,11 +25,14 @@ export default function Hero() {
 
   return (
     <section className="hero container" id="home">
-      <div className="hero-content">
+      <div className="hero-content reveal-up">
         <div className="availability"><span /> Available for opportunities</div>
-        <h1>Shri<wbr />chackran K <span>M</span></h1>
+        <h1 className="hero-name">Shrichackran K M</h1>
         <h3>{profile.roles[roleIndex]}</h3>
         <p>{profile.tagline}</p>
+        <p className="hero-subline">
+          Passionate about shipping real-world impactful platforms using modern technologies — from neural pipelines to production-grade APIs.
+        </p>
         <div className="hero-actions">
           <button className="primary-btn" onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}>
             View Projects <Rocket size={16} />
@@ -44,17 +48,21 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="hero-visual">
-        <div className="profile-card">
+      <div className="hero-visual reveal-up reveal-delay">
+        <div className="identity-chip">
           <img src={profile.avatar} alt="Shrichackran K M" />
           <div>
-            <strong>{profile.name}</strong>
-            <span>AI • Full Stack • Automation</span>
+            <strong>ID_0421 · {profile.name}</strong>
+            <span>SASTRA Univ · Salem, TN</span>
           </div>
         </div>
-        <div className="code-card">
-          <div className="window-dots"><span /><span /><span /></div>
+        <div className="terminal-card">
+          <div className="terminal-top">
+            <div className="window-dots"><span /><span /><span /></div>
+            <span>~/portfolio · zsh</span>
+          </div>
           <pre>{codeLines.map((line, index) => <code key={index}>{line}\n</code>)}</pre>
+          <div className="terminal-cursor" />
         </div>
       </div>
     </section>
